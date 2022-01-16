@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Spinner from '../Spinner.svelte';
     import {extent, mean, rollup, scaleBand, scaleLinear} from 'd3';
 
     export let circleRadius = 8;
@@ -80,44 +79,40 @@
     });
 </script>
 
-{#await fetchedData}
-    <Spinner/>
-{:then fetchedData}
-    <svg {height} {width}>
-        {#each fetchedData as data}
-            <circle
-                    cx={xScale(data[quantityKey])}
-                    cy={categoryIndexRoundedMeanMap[data[categoryKey]].y}
-                    r={circleRadius}
-                    fill={color}
-                    {opacity}
-            />
-        {/each}
-        {#each Object.entries(categoryIndexRoundedMeanMap) as [category, {mean, index, y}]}
-            <text
-                    style="text-transform: capitalize"
-                    y={y + labelOffSetY}
-                    x={categoryLabelPaddingLeft}
-                    text-anchor="start">
-                {`${categoryKey} ${category}`}
-            </text>
-            <text y={y + labelOffSetY} x={width} text-anchor="end">{mean}</text>
-        {/each}
-        {#each verticalLines as {x, label}}
-            <line
-                    x1={x}
-                    x2={x}
-                    y1={paddingTop - circleRadius}
-                    y2={height - rowHeight + 3 * circleRadius}
-                    stroke="black"
-                    stroke-width="1"
-                    opacity={0.2}
-            />
-            <text {x} y={height} text-anchor="middle">{label}</text>
-        {/each}
-
-        <text y={15} x={width} text-anchor="end">
-            {`${quantityKey[0].toUpperCase()}${quantityKey.slice(1, quantityKey.length)} (mean)`}
+<svg {height} {width}>
+    {#each fetchedData as data}
+        <circle
+                cx={xScale(data[quantityKey])}
+                cy={categoryIndexRoundedMeanMap[data[categoryKey]].y}
+                r={circleRadius}
+                fill={color}
+                {opacity}
+        />
+    {/each}
+    {#each Object.entries(categoryIndexRoundedMeanMap) as [category, {mean, index, y}]}
+        <text
+                style="text-transform: capitalize"
+                y={y + labelOffSetY}
+                x={categoryLabelPaddingLeft}
+                text-anchor="start">
+            {`${categoryKey} ${category}`}
         </text>
-    </svg>
-{/await}
+        <text y={y + labelOffSetY} x={width} text-anchor="end">{mean}</text>
+    {/each}
+    {#each verticalLines as {x, label}}
+        <line
+                x1={x}
+                x2={x}
+                y1={paddingTop - circleRadius}
+                y2={height - rowHeight + 3 * circleRadius}
+                stroke="black"
+                stroke-width="1"
+                opacity={0.2}
+        />
+        <text {x} y={height} text-anchor="middle">{label}</text>
+    {/each}
+
+    <text y={15} x={width} text-anchor="end">
+        {`${quantityKey[0].toUpperCase()}${quantityKey.slice(1, quantityKey.length)} (mean)`}
+    </text>
+</svg>
