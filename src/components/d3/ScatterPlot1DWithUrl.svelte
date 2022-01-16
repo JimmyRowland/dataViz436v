@@ -2,6 +2,7 @@
     import Spinner from '../Spinner.svelte';
     import {csv} from 'd3';
     import {onMount} from "svelte";
+    import ScatterPlot1D from "./ScatterPlot1D.svelte";
 
     export let circleRadius = 8;
     export let quantityKey: string;
@@ -21,33 +22,45 @@
     export let numberOfIntervals = 5;
     export let url: string;
 
-    const labelOffSetY = circleRadius / 2 + 1;
-
     interface Data {
         [quantityKey]: number;
         [categoryKey]: string;
     }
 
     let fetchedData: [Data] = [];
-
-    async function fetchData() {
-        return csv(url, (d) => {
-            fetchedData.push({
-                [quantityKey]: d[quantityKey] as number,
-                [categoryKey]: d[categoryKey] as string
-            } as Data)
-        })
-    }
-
     onMount(async () => {
-        await fetchData();
+        let data: [Data] = [];
+        await csv(url, (d) => {
+            data.push({
+                [quantityKey]: +d[quantityKey],
+                [categoryKey]: d[categoryKey]
+            } as Data);
+        })
+        fetchedData = data
     })
-    console.log(fetchedData)
-
 </script>
 
-{#await fetchedData}
-    <Spinner/>
-{:then fetchedData}
 
-{/await}
+{#if !fetchedData.length}
+    <Spinner/>
+{:else}
+    <ScatterPlot1D
+            data={fetchedData}
+            quantityKey={quantityKey}
+            categoryKey={categoryKey}
+            width={width}
+            rowHeight={rowHeight}
+            color={color}
+            opacity={opacity}
+            categoryLabelWidth={categoryLabelWidth}
+            categoryLabelPadding={categoryLabelPadding}
+            categoryLabelPaddingLeft={categoryLabelPaddingLeft}
+            categoryLabelPaddingRight={categoryLabelPaddingRight}
+            meanPaddingLeft={meanPaddingLeft}
+            paddingTop={paddingTop}
+            numberOfIntervals={numberOfIntervals}
+            quantityMin={quantityMin}
+            quantityMax={quantityMax}
+            circleRadius={circleRadius}
+    />
+{/if}

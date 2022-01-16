@@ -1,3 +1,4 @@
+const sveltePreprocess = require('svelte-preprocess');
 const path = require('path');
 
 module.exports = {
@@ -17,6 +18,6 @@ module.exports = {
 	],
 	framework: '@storybook/svelte',
 	svelteOptions: {
-		preprocess: import('../svelte.config.js').preprocess
+		preprocess: sveltePreprocess(),
 	}
 };

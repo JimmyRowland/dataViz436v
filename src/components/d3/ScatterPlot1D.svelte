@@ -52,8 +52,8 @@
     const rightMargin = getLabelMaxWidth(Object.values(roundedMeans).map((mean) => mean.toString()));
     const height = means.size * rowHeight + paddingTop;
     const xExtent = extent(fetchedData, (d) => d[quantityKey] as number);
-    const xMin = quantityMin ?? Math.floor(xExtent[0]);
-    const xMax = quantityMax ?? Math.ceil(xExtent[1]);
+    const xMin = quantityMin === undefined ? Math.floor(xExtent[0]) : quantityMin;
+    const xMax = quantityMax === undefined ? Math.ceil(xExtent[1]) : quantityMax;
     const xScale = scaleLinear()
         .domain([xMin, xMax])
         .range([
