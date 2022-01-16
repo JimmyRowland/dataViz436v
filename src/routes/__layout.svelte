@@ -1,9 +1,12 @@
 <script>
-  import Navbar from "../components/navbar.svelte";
-  import '../styles/global.css';
+	import Navbar from '../components/Navbar.svelte';
+	import '../styles/global.css';
 </script>
-<Navbar/>
-<slot/>
-<style>
 
+<Navbar/>
+<div class="flex flex-grow items-center flex-col">
+	<slot/>
+</div>
+
+<style>
 </style>

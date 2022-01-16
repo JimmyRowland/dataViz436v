@@ -1,21 +1,18 @@
 <script>
-  import {Meta, Story, Template} from "@storybook/addon-svelte-csf";
-  import Navbar from "../components/navbar.svelte";
+	import {Meta, Story, Template} from '@storybook/addon-svelte-csf';
+	import Navbar from '../components/navbar.svelte';
 </script>
 
-<Meta
-        title="Components/Navbar"
-        component={Navbar}
-/>
+<Meta title="Components/Navbar" component={Navbar}/>
 
 <Template let:args>
-  <Navbar {...args}/>
+	<Navbar {...args}/>
 </Template>
 
 <Story
-        name="Primary"
-        args={{
-    primary: true,
-    label: "Button",
-  }}
+		name="Primary"
+		args={{
+		primary: true,
+		label: 'Button'
+	}}
 />
